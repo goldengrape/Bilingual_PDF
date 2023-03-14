@@ -1,4 +1,4 @@
 pdfkit
 openai
 markdown
-pdfkit
+pymupdf
