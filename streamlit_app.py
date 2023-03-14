@@ -23,7 +23,8 @@ end_page=int(end_page)-1
 if platform.system() == "Windows":
     htmltopdf=r"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe"
 else:
-    htmltopdf='/usr/local/bin/wkhtmltopdf'
+    # htmltopdf='/usr/local/bin/wkhtmltopdf'
+    htmltopdf='/home/appuser/venv/bin/wkhtmltopdf'
 
 if file is not None:
     filename=file.name
