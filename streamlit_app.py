@@ -3,6 +3,7 @@ from main import process_book
 import fitz
 import os
 import platform 
+import subprocess
 # import io import BytesIO
 
 st.title("PDF Bilingual Translator")
@@ -20,11 +21,14 @@ translate_button=st.button("Translate")
 
 start_page=int(start_page)-1
 end_page=int(end_page)-1
-if platform.system() == "Windows":
-    htmltopdf=r"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe"
-else:
-    # htmltopdf='/usr/local/bin/wkhtmltopdf'
-    htmltopdf='/home/appuser/venv/bin/wkhtmltopdf'
+htmltopdf= subprocess.run(['which', 'wkhtmltopdf'], stdout=subprocess.PIPE)
+print(htmltopdf)
+st.write(htmltopdf.stdout.decode('utf-8'))
+# if platform.system() == "Windows":
+#     htmltopdf=r"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe"
+# else:
+#     # htmltopdf='/usr/local/bin/wkhtmltopdf'
+#     htmltopdf='/home/appuser/venv/bin/wkhtmltopdf'
 
 if file is not None:
     filename=file.name
