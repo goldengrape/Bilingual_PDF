@@ -19,7 +19,7 @@ file=col1.file_uploader("Upload a PDF file", type="pdf")
 col21,col22=col2.columns([1,2])
 start_page=col21.text_input("Start Page",1)
 end_page=col21.text_input("End Page",1)
-source_language=col22.selectbox("Target Language",lang_list("english"))
+source_language=col22.selectbox("Source Language",lang_list("english"))
 target_language=col22.selectbox("Target Language",lang_list("simplified chinese"))
 
 OPENAI_API_KEY=st.text_input("OpenAI API KEY",type="password")
