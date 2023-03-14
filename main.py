@@ -31,12 +31,12 @@ def process_book(
     new_doc = fitz.open()
 
     # additional_convert_markdown_prompt="The text is from one page of a PDF file, and I will also give you part of the previous page and part of the next page of text. You can use the body parts of the previous and next pages to complete the text of the current page, as appropriate. You can remove the irrelevant information in the header and footer. However, you may not add anything that does not appear in the given text."
-    # additional_convert_markdown_prompt="You can not add anything that does not appear in the given text."
-    additional_convert_markdown_prompt=""
+    # additional_convert_markdown_prompt ="You can remove the irrelevant information in the header and footer. However, you may not add anything that does not appear in the given text."
+    additional_convert_markdown_prompt="" 
     additional_prompt="Note that the text is markdown, and the translation should not break its format, paying special attention to the beginning of the table. And do not add links to non-existent images."
 
     for page_number in range(start_page,end_page+1):
-        print(f"Processing page {page_number+1}/{total_page+1}")
+        print(f"Processing page {page_number+1}/{total_page}")
         # text=stitching_text(page_number,source_doc)
         text=source_doc[page_number].get_text()
         
