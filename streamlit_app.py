@@ -4,6 +4,7 @@ import fitz
 import os
 import platform 
 import subprocess
+import openai 
 # import io import BytesIO
 
 st.title("PDF Bilingual Translator")
@@ -41,6 +42,7 @@ if file is not None:
 
 if translate_button:
     with st.spinner("Translating..."):
+        openai.api_key = OPENAI_API_KEY
         process_book(source_doc,start_page,end_page,output_filename,htmltopdf,source_language,target_language)
         with open(output_filename, "rb") as f:
             translated_pdf = f.read()
