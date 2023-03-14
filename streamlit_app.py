@@ -53,3 +53,5 @@ if translate_button:
         with open(output_filename, "rb") as f:
             translated_pdf = f.read()
         st.download_button(label="Download", data=translated_pdf, file_name=output_filename, mime="application/pdf")
+        os.remove(output_filename)
+        os.remove(filename)
