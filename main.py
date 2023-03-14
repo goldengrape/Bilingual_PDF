@@ -13,6 +13,7 @@ def set_args():
     parser.add_argument("--start_page", type=int, default=1, help="start page of the pdf file")
     parser.add_argument("--end_page", type=int, default=0, help="end page of the pdf file")
     parser.add_argument("--target_language", type=str, default="Chinese", help="target language of the pdf file")
+    parser.add_argument("--source_language", type=str, default="English", help="source language of the pdf file")
     parser.add_argument("--htmltopdf", type=str, default=r"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe", help="path to the wkhtmltopdf")
     parser.add_argument("--openai_key", type=str, default="", help="OpenAI API KEY")
     args = parser.parse_args()
@@ -24,6 +25,7 @@ def process_book(
         end_page,
         output_filename ,
         htmltopdf,
+        source_language="English",
         target_language="Chinese",
         ):
     config=pdfkit.configuration(wkhtmltopdf=htmltopdf)
@@ -47,6 +49,7 @@ def process_book(
         insert_pdf_filename=process_one_page(text,
                         additional_convert_markdown_prompt=additional_convert_markdown_prompt,
                         additional_tranlate_prompt=additional_prompt,
+                        source_language=source_language,
                         target_language=target_language,
                         path=tmpdirname,
                         pdfkit_config=config)
@@ -71,6 +74,7 @@ if __name__ == "__main__":
     start_page=args.start_page-1
     end_page=args.end_page-1
     # 此处存在Prompt注入风险
+    source_language=args.source_language
     target_language=args.target_language
 
     htmltopdf=args.htmltopdf
@@ -86,4 +90,4 @@ if __name__ == "__main__":
     OPENAI_API_KEY = args.openai_key or env.get("OPENAI_API_KEY")
     if not OPENAI_API_KEY:
         raise ValueError("Please set OPENAI_API_KEY environment variable")
-    process_book(source_doc,start_page,end_page,output_filename,htmltopdf,target_language)
+    process_book(source_doc,start_page,end_page,output_filename,htmltopdf,source_language, target_language)

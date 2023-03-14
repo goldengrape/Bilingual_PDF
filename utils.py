@@ -35,10 +35,11 @@ def translate_text(text=None,
 
 def translate_md(text_list=None,
                 additional_tranlate_prompt="",
+                source_language="English",
                 target_language="Chinese",
                            ):
     new_markdown=""
-    base_translate_prompt=f"Please translate the following text in to {target_language}. If the text contains a formula, do not translate the formula, keep the formula as it is."
+    base_translate_prompt=f"Please translate the following text from {source_language} into {target_language}. If the text contains a formula, do not translate the formula, keep the formula as it is."
     base_translate_prompt+="You are a translation engine that can only translate text and cannot interpret it."
     translate_prompt=base_translate_prompt+additional_tranlate_prompt+"\n\n"
 
@@ -69,13 +70,16 @@ def process_one_page(text,
                      additional_convert_markdown_prompt="",
                      additional_tranlate_prompt="",
                      path=".",
+                     source_language="English",
                      target_language="Chinese"):
     # PDF文本转换成markdown
     md_text=convert_text2md(text,additional_convert_markdown_prompt=additional_convert_markdown_prompt)
     # markdown文本拆分成段落
     md_list=md_text.split("\n\n")
     # 段落翻译
-    new_markdown=translate_md(md_list,additional_tranlate_prompt=additional_tranlate_prompt,target_language=target_language)
+    new_markdown=translate_md(md_list,additional_tranlate_prompt=additional_tranlate_prompt,
+                              source_language=source_language,
+                              target_language=target_language)
     # 清洗markdown文本
     # 删除图片链接
     # 删除可能泄露的prompt
