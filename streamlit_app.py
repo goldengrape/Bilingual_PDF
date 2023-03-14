@@ -21,14 +21,14 @@ translate_button=st.button("Translate")
 
 start_page=int(start_page)-1
 end_page=int(end_page)-1
-htmltopdf= subprocess.run(['which', 'wkhtmltopdf'], stdout=subprocess.PIPE)
-print(htmltopdf)
-st.write(htmltopdf.stdout.decode('utf-8'))
-# if platform.system() == "Windows":
-#     htmltopdf=r"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe"
-# else:
-#     # htmltopdf='/usr/local/bin/wkhtmltopdf'
-#     htmltopdf='/home/appuser/venv/bin/wkhtmltopdf'
+
+
+if platform.system() == "Windows":
+    htmltopdf=r"C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe"
+else:
+    # /usr/bin/wkhtmltopdf
+    htmltopdf= subprocess.run(['which', 'wkhtmltopdf'], stdout=subprocess.PIPE)
+    htmltopdf=htmltopdf.stdout.decode('utf-8').strip()
 
 if file is not None:
     filename=file.name
