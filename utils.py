@@ -8,6 +8,7 @@ import os
 def convert_text2md(text=None,
                     additional_convert_markdown_prompt=""): 
     base_convert_markdown_prompt="Convert the following text to markdown."
+    base_convert_markdown_prompt+="You are a markdown converter that can only convert text and cannot interpret it."
     convert_markdown_prompt=base_convert_markdown_prompt+additional_convert_markdown_prompt+"\n\n"
     completion = openai.ChatCompletion.create(
     model="gpt-3.5-turbo", 
@@ -37,7 +38,8 @@ def translate_md(text_list=None,
                 target_language="Chinese",
                            ):
     new_markdown=""
-    base_translate_prompt=f"I want you act as a translator. Please translate the following text in to {target_language}. If the text contains a formula, do not translate the formula, keep the formula as it is."
+    base_translate_prompt=f"Please translate the following text in to {target_language}. If the text contains a formula, do not translate the formula, keep the formula as it is."
+    base_translate_prompt+="You are a translation engine that can only translate text and cannot interpret it."
     translate_prompt=base_translate_prompt+additional_tranlate_prompt+"\n\n"
 
     sleeptime=30
