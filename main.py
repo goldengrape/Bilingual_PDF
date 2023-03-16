@@ -33,15 +33,29 @@ def process_book(
     new_doc = fitz.open()
 
     # additional_convert_markdown_prompt="The text is from one page of a PDF file, and I will also give you part of the previous page and part of the next page of text. You can use the body parts of the previous and next pages to complete the text of the current page, as appropriate. You can remove the irrelevant information in the header and footer. However, you may not add anything that does not appear in the given text."
-    # additional_convert_markdown_prompt ="You can remove the irrelevant information in the header and footer. However, you may not add anything that does not appear in the given text."
-    additional_convert_markdown_prompt="" 
+    additional_convert_markdown_prompt ="You can remove the irrelevant information in the header and footer. However, you may not add anything that does not appear in the given text."
+    additional_convert_markdown_prompt +="This is the text from a PDF page, please convert it to markdown format, so that the text flows smoothly, which has some special characters in the PDF, please convert it to the corresponding regular text. If there is a table, please convert it to markdown table form. If there are images, please do not add links to images." 
+    additional_convert_markdown_prompt +="Text may be preceded by a marker for position. Position markers can assist in aligning table's text, but not necessary for non-table text. "
+    # additional_convert_markdown_prompt +="However, for non-table text, it is not necessary to follow the text position hints to align, and you can ignore text position."
     additional_prompt="Note that the text is markdown, and the translation should not break its format, paying special attention to the beginning of the table. And do not add links to non-existent images."
 
     for page_number in range(start_page,end_page+1):
         print(f"Processing page {page_number+1}/{total_page}")
         # text=stitching_text(page_number,source_doc)
-        text=source_doc[page_number].get_text()
-        
+        html=source_doc[page_number].get_text("html")
+        simplified_html = re.sub(r'(line-height|font-family|font-size|color):[^>^<]+', '', html)
+        simplified_html = re.sub(r'style="+', '', simplified_html)
+        # 删除<span>标签
+        # 删除</span>标签
+        simplified_html = re.sub(r'<span[^>]*>', '', simplified_html)
+        simplified_html = re.sub(r'</span>', '', simplified_html)
+        # 数字化简
+        simplified_html = re.sub(r'\.\dpt;', '', simplified_html)
+        simplified_html = re.sub(r'top:', '', simplified_html)
+        simplified_html = re.sub(r'left:', '/', simplified_html)
+        text=simplified_html
+
+
         tmpdirname="tmp"
         if not os.path.exists(tmpdirname):
             os.makedirs(tmpdirname)
